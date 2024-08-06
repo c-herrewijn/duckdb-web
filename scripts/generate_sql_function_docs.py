@@ -1,11 +1,14 @@
+import os
+import sys
 import duckdb as db
-import json
-import re
 
-# tmp, needs to come from argv
-duckdb_source_repo = "..."
 
 def main():
+    if len(sys.argv) < 2:
+        print(
+            "Expected usage: python3 generate_sql_function_docs.py /path/to/duckdb/folder"
+        )
+        exit(1)
     docs_map = {
         "math": "docs/sql/functions/numeric.md",
     }
@@ -38,9 +41,11 @@ def update_doc(module, doc_file):
 
 
 def get_function_data(module):
-    functions_json_file = (
-        duckdb_source_repo + f"src/core_functions/scalar/{module}/functions.json"
+    duckdb_source_repo = sys.argv[1]
+    functions_json_file = os.path.join(
+        duckdb_source_repo, os.path.sep.join(f"src/core_functions/scalar/{module}/functions.json".split('/'))
     )
+
     query_aliases_from_json = f'''
     create table
         aliases as
