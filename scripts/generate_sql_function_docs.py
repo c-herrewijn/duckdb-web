@@ -85,8 +85,19 @@ def generate_docs_table(function_data):
 
 
 def generate_docs_records(function_data):
-    return "dummy2\n"
-
+    res = "\n\n"
+    for func in function_data:
+        name, params, description, example, alias = func
+        params = list(map(lambda a: a.strip(), params))
+        res += f"### `{name}({", ".join(params)})`\n\n"
+        res += "<div class=\"nostroke_table\"></div>\n\n"
+        res += f"| **Description** | {description} |\n"
+        res += f"| **Example** | `{example}` |\n"
+        res += f"| **Result** | `{db.sql(f"select {example}").fetchone()[0]}` |\n"
+        if alias:
+            res += f"| **Alias** | `{", ".join(alias)}` |\n"
+        res += "\n"
+    return res
 
 if __name__ == "__main__":
     main()
