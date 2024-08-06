@@ -80,7 +80,7 @@ def generate_docs_table(function_data):
     for func in function_data:
         name, params, description, _, _ = func
         params = list(map(lambda a: a.strip(), params))
-        res += f"| [`{name}({", ".join(params)})`](#{name.lstrip('@*!')}{"-".join(params)}) | {description} |\n"
+        res += f"| [`{name}({", ".join(params)})`](#{name.lstrip('@*!^')}{"-".join(params)}) | {description} |\n"
     return res
 
 
@@ -95,7 +95,7 @@ def generate_docs_records(function_data):
         res += f"| **Example** | `{example}` |\n"
         res += f"| **Result** | `{db.sql(f"select {example}").fetchone()[0]}` |\n"
         if alias:
-            res += f"| **Alias** | `{", ".join(alias)}` |\n"
+            res += f"| **Alias** | {", ".join(alias)} |\n"
         res += "\n"
     return res
 
