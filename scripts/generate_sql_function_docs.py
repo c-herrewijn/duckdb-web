@@ -80,7 +80,7 @@ def generate_docs_table(function_data):
     for func in function_data:
         name, params, description, _, _ = func
         params = list(map(lambda a: a.strip(), params))
-        res += f"| [`{name}({",".join(params)})`](#{name}{"-".join(params)}) | {description} |\n"
+        res += f"| [`{name}({", ".join(params)})`](#{name.lstrip('@*!')}{"-".join(params)}) | {description} |\n"
     return res
 
 
